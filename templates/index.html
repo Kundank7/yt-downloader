@@ -3,140 +3,170 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>YouTube Downloader</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-
+  <title>Instagram Video Downloader</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to right, #e0eafc, #cfdef3);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
       margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #000;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
 
-    .form-container {
-      background: rgba(255, 255, 255, 0.8);
-      backdrop-filter: blur(12px);
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
-      width: 100%;
-      max-width: 400px;
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #111;
+      padding: 1rem;
+    }
+
+    .menu-icon, .mode-icon {
+      background-color: #222;
+      padding: 0.5rem;
+      border-radius: 5px;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem;
     }
 
     h1 {
-      font-size: 24px;
-      font-weight: 700;
       text-align: center;
-      margin-bottom: 20px;
-      color: #333;
+      font-size: 2rem;
+      margin-bottom: 1rem;
     }
 
     form {
       display: flex;
       flex-direction: column;
-    }
-
-    input[type="text"],
-    select {
       width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border: none;
-      border-radius: 10px;
-      font-size: 16px;
-      background-color: #f1f1f1;
-      box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.05);
-      transition: 0.3s;
+      max-width: 400px;
+      gap: 0.75rem;
     }
 
-    input:focus, select:focus {
-      outline: none;
-      background-color: #e9f0ff;
+    input[type="text"] {
+      padding: 0.75rem;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    .error {
+      color: red;
+      font-size: 0.9rem;
     }
 
     button {
-      background-color: #007bff;
-      color: white;
-      font-size: 16px;
-      padding: 12px;
-      margin-top: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background-color: #fff;
+      color: #000;
       border: none;
-      border-radius: 10px;
+      padding: 0.75rem;
+      border-radius: 5px;
+      font-size: 1rem;
       cursor: pointer;
-      box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
-      transition: background-color 0.3s ease, transform 0.2s;
+      transition: background-color 0.3s ease;
     }
 
     button:hover {
-      background-color: #0056b3;
-      transform: translateY(-2px);
+      background-color: #ddd;
     }
 
-    /* Loader Animation */
-    .loader {
-      width: fit-content;
-      margin: 10px auto 0 auto;
-      font-weight: bold;
-      font-family: monospace;
-      font-size: 18px;
-      background: linear-gradient(90deg, #000 50%, #0000 0) right/200% 100%;
-      animation: l21 2s infinite linear;
+    .instruction {
+      font-size: 0.9rem;
+      text-align: center;
+      margin-top: 1rem;
+      color: #aaa;
     }
 
-    .loader::before {
-      content: "Loading...";
-      color: #0000;
-      padding: 0 5px;
-      background: inherit;
-      background-image: linear-gradient(90deg, #333 50%, #000 0);
-      -webkit-background-clip: text;
-      background-clip: text;
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background-color: #111;
+      font-size: 0.85rem;
     }
 
-    @keyframes l21 {
-      100% {
-        background-position: left;
+    #loader {
+      display: none;
+      margin-top: 1rem;
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #3498db;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      align-self: center;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      button {
+        font-size: 0.9rem;
       }
     }
   </style>
 </head>
 <body>
-  <div class="form-container">
-    <h1>YouTube Video Downloader</h1>
-    <form id="downloadForm" action="/" method="POST" target="downloadFrame">
-      <input type="text" name="url" placeholder="Enter YouTube URL" required>
-      <select name="resolution" required>
-        <option value="480">480p</option>
-        <option value="720">720p</option>
-        <option value="1080">1080p</option>
-      </select>
 
-      <!-- Loader -->
-      <div id="loader" class="loader" style="display: none;"></div>
+  <header>
+    <div class="menu-icon">☰</div>
+    <div class="mode-icon">◐</div>
+  </header>
 
-      <button type="submit">Download</button>
+  <main>
+    <h1>Instagram Video<br>Downloader</h1>
+
+    <form id="downloadForm" action="/download" method="POST">
+      <input type="text" name="url" placeholder="Paste your Instagram link here..." required />
+      <span class="error">Provide a valid Instagram post link</span>
+      <button type="submit">
+        ⬇️ Download
+      </button>
     </form>
 
-    <!-- Hidden iframe to catch file download -->
-    <iframe name="downloadFrame" style="display: none;" onload="hideLoader()"></iframe>
-  </div>
+    <div id="loader"></div>
 
-<script>
-  const form = document.getElementById("downloadForm");
-  const loader = document.getElementById("loader");
+    <p class="instruction">
+      If the download opens a new page, right click the video and then click Save as video.
+    </p>
+  </main>
 
-  form.addEventListener("submit", () => {
-    loader.style.display = "block";
-    setTimeout(() => {
-      loader.style.display = "none";
-    }, 15000); // 10 seconds
-  });
-</script>
+  <footer>
+    © Copyright 2025, All Rights Reserved | designed by Kundan K
+  </footer>
 
+  <script>
+    const form = document.getElementById("downloadForm");
+    const loader = document.getElementById("loader");
+
+    form.addEventListener("submit", () => {
+      loader.style.display = "block";
+      setTimeout(() => {
+        loader.style.display = "none";
+      }, 10000); // Hide after 10 seconds
+    });
+  </script>
 
 </body>
 </html>
