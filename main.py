@@ -5,6 +5,7 @@ import uuid
 
 app = Flask(__name__)
 
+# Create a download directory if it doesn't exist
 DOWNLOAD_DIR = "downloads"
 os.makedirs(DOWNLOAD_DIR, exist_ok=True)
 
@@ -30,3 +31,8 @@ def index():
             return f"<h3>Error: {e}</h3>"
 
     return render_template("index.html")
+
+# Add this block to support Render dynamic port
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
