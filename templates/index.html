@@ -125,25 +125,18 @@
     <iframe name="downloadFrame" style="display: none;" onload="hideLoader()"></iframe>
   </div>
 
- <script>
+<script>
   const form = document.getElementById("downloadForm");
   const loader = document.getElementById("loader");
-  const iframe = document.querySelector('iframe');
-
-  let firstLoad = true;
 
   form.addEventListener("submit", () => {
     loader.style.display = "block";
+    setTimeout(() => {
+      loader.style.display = "none";
+    }, 10000); // 10 seconds
   });
-
-  function hideLoader() {
-    if (firstLoad) {
-      firstLoad = false;
-      return;
-    }
-    loader.style.display = "none";
-  }
 </script>
+
 
 </body>
 </html>
