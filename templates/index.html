@@ -1,127 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<style>
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f1f6f9;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
-}
-
-form {
-  background: #ffffff;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 300px;
-}
-
-input[type="text"],
-select {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border: 2px solid #ccc;
-  border-radius: 8px;
-  font-size: 16px;
-  transition: 0.3s;
-}
-
-input[type="text"]:focus,
-select:focus {
-  border-color: #007bff;
-  outline: none;
-}
-
-button {
-  background-color: #007bff;
-  color: white;
-  font-size: 16px;
-  padding: 10px 25px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-top: 15px;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-
-/* Loader Style */
-.loader {
-  width: fit-content;
-  margin: 0 auto 10px auto;
-  font-weight: bold;
-  font-family: monospace;
-  font-size: 18px;
-  background: linear-gradient(90deg, #000 50%, #0000 0) right/200% 100%;
-  animation: l21 2s infinite linear;
-}
-
-.loader::before {
-  content: "Loading...";
-  color: #0000;
-  padding: 0 5px;
-  background: inherit;
-  background-image: linear-gradient(90deg, #fff 50%, #000 0);
-  -webkit-background-clip: text;
-  background-clip: text;
-}
-
-@keyframes l21 {
-  100% {
-    background-position: left;
-  }
-}
-</style>
-
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>YouTube Downloader</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #e0eafc, #cfdef3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .form-container {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(12px);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    input[type="text"],
+    select {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      background-color: #f1f1f1;
+      box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.05);
+      transition: 0.3s;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      background-color: #e9f0ff;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      font-size: 16px;
+      padding: 12px;
+      margin-top: 15px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+      transition: background-color 0.3s ease, transform 0.2s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+      transform: translateY(-2px);
+    }
+
+    /* Loader Animation */
+    .loader {
+      width: fit-content;
+      margin: 10px auto 0 auto;
+      font-weight: bold;
+      font-family: monospace;
+      font-size: 18px;
+      background: linear-gradient(90deg, #000 50%, #0000 0) right/200% 100%;
+      animation: l21 2s infinite linear;
+    }
+
+    .loader::before {
+      content: "Loading...";
+      color: #0000;
+      padding: 0 5px;
+      background: inherit;
+      background-image: linear-gradient(90deg, #333 50%, #000 0);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    @keyframes l21 {
+      100% {
+        background-position: left;
+      }
+    }
+  </style>
 </head>
-<body class="bg-gray-100 flex items-center justify-center h-screen">
-  <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
-    <h1 class="text-2xl font-bold mb-6 text-center">YouTube Video Downloader</h1>
-   <form id="downloadForm" action="/" method="POST" target="downloadFrame">
-  <input type="text" name="url" placeholder="Enter YouTube URL" required>
-  <select name="resolution" required>
-    <option value="480">480p</option>
-    <option value="720">720p</option>
-    <option value="1080">1080p</option>
-  </select>
+<body>
+  <div class="form-container">
+    <h1>YouTube Video Downloader</h1>
+    <form id="downloadForm" action="/" method="POST" target="downloadFrame">
+      <input type="text" name="url" placeholder="Enter YouTube URL" required>
+      <select name="resolution" required>
+        <option value="480">480p</option>
+        <option value="720">720p</option>
+        <option value="1080">1080p</option>
+      </select>
 
-  <!-- Loader above button -->
-  <div id="loader" class="loader" style="display: none; margin-top: 10px;"></div>
+      <!-- Loader -->
+      <div id="loader" class="loader" style="display: none;"></div>
 
-  <button type="submit">Download</button>
-</form>
+      <button type="submit">Download</button>
+    </form>
 
-<!-- Hidden iframe to catch file download -->
-<iframe name="downloadFrame" style="display: none;" onload="hideLoader()"></iframe>
-
+    <!-- Hidden iframe to catch file download -->
+    <iframe name="downloadFrame" style="display: none;" onload="hideLoader()"></iframe>
   </div>
- <script>
-  const form = document.getElementById("downloadForm");
-  const loader = document.getElementById("loader");
 
-  form.addEventListener("submit", () => {
-    loader.style.display = "block";
-  });
+  <script>
+    const form = document.getElementById("downloadForm");
+    const loader = document.getElementById("loader");
 
-  function hideLoader() {
-    loader.style.display = "none";
-  }
-</script>
+    form.addEventListener("submit", () => {
+      loader.style.display = "block";
+    });
 
+    function hideLoader() {
+      loader.style.display = "none";
+    }
+  </script>
 </body>
 </html>
