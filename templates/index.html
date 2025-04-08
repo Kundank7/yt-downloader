@@ -2,15 +2,14 @@
 <html lang="en">
 <head>
   <style>
-/* HTML: <div class="loader"></div> */
 .loader {
   width: fit-content;
+  margin: 0 auto 10px auto;
   font-weight: bold;
   font-family: monospace;
-  font-size: 30px;
-  background: linear-gradient(90deg,#000 50%,#0000 0) right/200% 100%;
+  font-size: 18px;
+  background: linear-gradient(90deg, #000 50%, #0000 0) right/200% 100%;
   animation: l21 2s infinite linear;
-  margin: 20px auto;
 }
 
 .loader::before {
@@ -18,7 +17,7 @@
   color: #0000;
   padding: 0 5px;
   background: inherit;
-  background-image: linear-gradient(90deg,#fff 50%,#000 0);
+  background-image: linear-gradient(90deg, #fff 50%, #000 0);
   -webkit-background-clip: text;
   background-clip: text;
 }
@@ -29,6 +28,7 @@
   }
 }
 </style>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>YouTube Downloader</title>
@@ -55,15 +55,18 @@
 <iframe name="downloadFrame" style="display: none;" onload="hideLoader()"></iframe>
 
   </div>
-  <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const form = document.querySelector("form");
-    const loader = document.getElementById("loader");
+ <script>
+  const form = document.getElementById("downloadForm");
+  const loader = document.getElementById("loader");
 
-    form.addEventListener("submit", function () {
-      loader.style.display = "block";
-    });
+  form.addEventListener("submit", () => {
+    loader.style.display = "block";
   });
+
+  function hideLoader() {
+    loader.style.display = "none";
+  }
 </script>
+
 </body>
 </html>
