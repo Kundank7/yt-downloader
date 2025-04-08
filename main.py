@@ -20,7 +20,8 @@ def index():
         ydl_opts = {
             'format': f'bestvideo[height<={resolution}]+bestaudio/best',
             'outtmpl': output_path,
-            'merge_output_format': 'mp4'
+            'merge_output_format': 'mp4',
+            'cookiefile': 'cookies.txt'  # <- Added for authentication
         }
 
         try:
